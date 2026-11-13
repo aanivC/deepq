@@ -1,5 +1,6 @@
 import gymnasium as gym
 import numpy as np
+import time 
 
 env = gym.make("MountainCar-v0")
 
@@ -8,7 +9,7 @@ DISCOUNT = 0.95 #how important is future actions compared to current reward
 EPISODES = 25000
 
 
-SHOW_EVERY = 2000
+SHOW_EVERY = 500
 
 
 
@@ -16,7 +17,7 @@ DISCRETE_OS_SIZE = [20] * len(env.observation_space.high)
 discrete_os_win_size = (env.observation_space.high - env.observation_space.low)/DISCRETE_OS_SIZE
 
 
-epsilon = 0.5 
+epsilon = 0 
 START_EPSILON_DECAYING = 1 
 END_EPSILON_DECAYING = EPISODES // 2
 
@@ -50,6 +51,8 @@ for episode in range(EPISODES):
     discrete_state = get_discrete_state(env.reset()[0])
     done = False
 
+    stepAmount = 0
+
 
     while not done:
 
@@ -60,7 +63,7 @@ for episode in range(EPISODES):
 
         new_state, reward, terminated, truncated, extraInfo = env.step(action)
 
-       
+        stepAmount += 1
        
         new_discrete_state = get_discrete_state(new_state)
         done = terminated or truncated
@@ -74,7 +77,7 @@ for episode in range(EPISODES):
             q_table[discrete_state + (action, )] = new_q
 
         elif new_state[0] >= env.unwrapped.goal_position:
-            q_table[discrete_state + (action, )] = 0
+            q_table[discrete_state + (action, )] = 0 
             print(episode)
             
 

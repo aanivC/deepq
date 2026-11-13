@@ -14,7 +14,8 @@ SHOW_EVERY = 4999
 
 
 
-DISCRETE_OS_SIZE = [21] * len(env.observation_space.high)
+DISCRETE_OS_SIZE = [20] * len(env.observation_space.high)
+# the discrete os size is 
 discrete_os_win_size = (env.observation_space.high - env.observation_space.low)/DISCRETE_OS_SIZE
 
 
